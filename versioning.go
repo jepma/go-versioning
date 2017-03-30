@@ -1,16 +1,15 @@
 package versioning
 
-import "fmt"
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
+
 import "strconv"
 
-var currentVersion Version
-var newVersion Version
+var defaultVersion = "0.0.1"
 
-// SetVersion will set the correct values of the major, minor and patch attributes of Version struct
-func (v *Version) SetVersion(versionRaw string) {
-
-	// glog.Info("Setting Version: ", versionRaw)
+func setVersion(v *Version, versionRaw string) (err error) {
 
 	// @TODO: Verify if we have a leading "v"
 	// config.VERSION = strings.Split(config.TAG, "v")[1]
@@ -33,10 +32,12 @@ func (v *Version) SetVersion(versionRaw string) {
 			v.patch = i
 		}
 	}
+
+	return
 }
 
 // GetVersionString will Generate a version string based on your struct
-func (v *Version) GetVersionString() (version string) {
+func getVersionString(v Version) string {
 
 	postfix := ""
 
@@ -56,47 +57,27 @@ func (v *Version) GetVersionString() (version string) {
 		postfix = fmt.Sprintf("%s-dirty", postfix)
 	}
 
-	version = fmt.Sprintf("%d.%d.%d%s", v.major, v.minor, v.patch, postfix)
+	return fmt.Sprintf("%d.%d.%d%s", v.major, v.minor, v.patch, postfix)
 
-	return
 }
 
 // GetVersionTag will Generate version tag string
-func (v *Version) GetVersionTag() (version string) {
-
-	version = fmt.Sprintf("v%d.%d.%d", v.major, v.minor, v.patch)
-
-	return
+func getVersionTag(v Version) string {
+	return fmt.Sprintf("v%d.%d.%d", v.major, v.minor, v.patch)
 }
 
-// Write new JSON to disk
-// func (v *Version) Write(configObject config.JSONObject) {
-//
-// 	configObject.VERSION = v.GetVersionString()
-// 	config.Write()
-//
-// }
-
-// Patch version of given version struct
-func (v *Version) Patch() (version string) {
-	v.patch = v.patch + 1
-	return
-}
-
-// Minor version of given version struct
-func (v *Version) Minor() (version string) {
-	v.minor = v.minor + 1
-	return
-}
-
-// Major version of given version struct
-func (v *Version) Major() (version string) {
-	v.major = v.major + 1
-	return
+// bump value
+func bump(value int) int {
+	return value + 1
 }
 
 // CreateVersion will create a struct and populate this with config data
 func CreateVersion(versionStr string) (vrsion Version) {
+
+	if versionStr == "" {
+		versionStr = defaultVersion
+	}
+
 	vrsion.SetVersion(versionStr)
 	return vrsion
 }
