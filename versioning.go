@@ -41,15 +41,6 @@ func getVersionString(v Version) string {
 
 	postfix := ""
 
-	// If differs from release, append rev
-	// if git.DiffSinceRelease(git.GetTagLatest()) == true {
-	// 	postfix = fmt.Sprintf("-%s", git.GetRevParse())
-	// }
-	//
-	// // If dirty, append --dirty
-	// if git.HasChanges() == true {
-	// 	postfix = fmt.Sprintf("%s-dirty", postfix)
-	// }
 	if v.hash != "" {
 		postfix = fmt.Sprintf("-%s", v.hash)
 	}
