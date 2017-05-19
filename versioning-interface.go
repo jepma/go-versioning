@@ -20,6 +20,7 @@ type Version struct {
 	major, minor, patch int
 	hash                string
 	dirty               bool
+	prefix              string
 }
 
 // SetVersion will set the correct values of the major, minor and patch attributes of Version struct
@@ -40,12 +41,16 @@ func (v Version) GetVersionTag() string {
 // Patch version of given version struct
 func (v *Version) Patch() {
 	v.patch = bump(v.patch)
+	v.SetDirty(false)
+	v.SetHash("")
 }
 
 // Minor version of given version struct
 func (v *Version) Minor() {
 	v.minor = bump(v.minor)
 	v.patch = 0
+	v.SetDirty(false)
+	v.SetHash("")
 }
 
 // Major version of given version struct
@@ -53,4 +58,36 @@ func (v *Version) Major() {
 	v.major = bump(v.major)
 	v.patch = 0
 	v.minor = 0
+	v.SetDirty(false)
+	v.SetHash("")
+}
+
+// SetHash sets the hash value in struct
+func (v *Version) SetHash(hash string) {
+	v.hash = hash
+}
+
+// SetDirty sets the dirty bool in struct
+func (v *Version) SetDirty(dirty bool) {
+	v.dirty = dirty
+}
+
+// SetPrefix sets the dirty bool in struct
+func (v *Version) SetPrefix(prefix string) {
+	v.prefix = prefix
+}
+
+// GetPrefix gets the prefix string in struct
+func (v *Version) GetPrefix() (prefix string) {
+	return v.prefix
+}
+
+// GetDirty gets the dirty bool in struct
+func (v *Version) GetDirty() (dirty bool) {
+	return v.dirty
+}
+
+// GetHash gets the hash string in struct
+func (v *Version) GetHash() (hash string) {
+	return v.hash
 }

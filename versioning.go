@@ -22,7 +22,7 @@ import (
 
 import "strconv"
 
-var defaultVersion = "0.0.1"
+var defaultVersion = "0.0.0"
 
 func setVersion(v *Version, versionRaw string) (err error) {
 
@@ -69,7 +69,7 @@ func getVersionString(v Version) string {
 
 // GetVersionTag will Generate version tag string
 func getVersionTag(v Version) string {
-	return fmt.Sprintf("v%d.%d.%d", v.major, v.minor, v.patch)
+	return fmt.Sprintf("%s%d.%d.%d", v.GetPrefix(), v.major, v.minor, v.patch)
 }
 
 // bump value

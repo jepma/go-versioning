@@ -178,3 +178,46 @@ func TestVersionCreateNoValue(t *testing.T) {
 	}
 
 }
+
+func TestVersionSetHash(t *testing.T) {
+
+	// Create version struct
+	version := CreateVersion("1.0.1")
+	version.SetHash("hash")
+
+	var v string
+	v = version.GetVersionString()
+	if v != "1.0.1-hash" {
+		t.Error("Expected v1.0.1, got ", v)
+	}
+
+}
+
+func TestVersionSetDirty(t *testing.T) {
+
+	// Create version struct
+	version := CreateVersion("1.0.1")
+	version.SetDirty(true)
+
+	var v string
+	v = version.GetVersionString()
+	if v != "1.0.1-dirty" {
+		t.Error("Expected v1.0.1-dirty, got ", v)
+	}
+
+}
+
+func TestVersionSetHashDirty(t *testing.T) {
+
+	// Create version struct
+	version := CreateVersion("1.0.1")
+	version.SetDirty(true)
+	version.SetHash("hash")
+
+	var v string
+	v = version.GetVersionString()
+	if v != "1.0.1-hash-dirty" {
+		t.Error("Expected v1.0.1-hash-dirty, got ", v)
+	}
+
+}
